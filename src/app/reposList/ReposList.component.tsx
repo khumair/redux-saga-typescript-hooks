@@ -11,7 +11,7 @@ export interface ReposListComponentProps {
 const StyledRepo = styled.a`
   cursor: pointer;
   display: block;
-  color: darkblue;
+  color: blue;
   text-decoration: underline;
 `;
 
@@ -22,7 +22,7 @@ const ReposListComponent: React.FC<ReposListComponentProps> = ({ repos, onClick 
         key={repo.id}
         onClick={() => onClick(repo.id)}
       >
-        {repo.full_name}
+        {repo.name} ({repo.watchers_count})
       </StyledRepo>;
     })}
   </>;

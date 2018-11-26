@@ -10,7 +10,6 @@ export interface AsyncModel<P> {
 // We only type what we need
 export interface Repo {
   id: number;
-  full_name: string;
-  language: string;
-  stargazers_count: number;
+  name: string;
+  watchers_count: number;
 }
