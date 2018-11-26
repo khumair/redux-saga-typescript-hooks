@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { doSomething } from './actions';
+import { somethingAsync } from './actions';
 import { RootState } from './interfaces';
 
 interface ContainerStateProps {
@@ -13,27 +13,21 @@ interface ContainerDispatchProps {
 
 type Props = ContainerDispatchProps & ContainerStateProps;
 
-const App = connect<ContainerStateProps, ContainerDispatchProps>(
+const AppComponent: React.FC<Props> = (props) => {
+  useEffect(props.onMount, []);
+
+  return <div>{props.something}</div>;
+};
+
+// Waiting for an official 'useRedux' hook, meanwhile good old connect
+const AppContainer = connect<ContainerStateProps, ContainerDispatchProps>(
   (state: RootState) => ({
     something: state.something
   }),
   (dispatch) => ({
-    onMount: () => dispatch(doSomething('blabla'))
+    // Another approach would be to dispatch `appMounted` and make saga do all the logic, but this one is less boilerplate
+    onMount: () => dispatch(somethingAsync)
   })
-)(
-  class extends Component<Props> {
-    componentDidMount() {
-      this.props.onMount();
-    }
+)(AppComponent);
 
-    render() {
-      return (
-        <div className="App">
-          app {this.props.something}
-        </div>
-      );
-    }
-  }
-);
-
-export default App;
+export default AppContainer;

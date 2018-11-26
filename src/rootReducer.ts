@@ -1,6 +1,6 @@
 import { reducerWithInitialState } from 'typescript-fsa-reducers';
 
-import { doSomething } from './actions';
+import { somethingAsync } from './actions';
 import { RootState } from './interfaces';
 
 const INITIAL_STATE: RootState = {
@@ -8,9 +8,9 @@ const INITIAL_STATE: RootState = {
 };
 
 export const rootReducer = reducerWithInitialState(INITIAL_STATE)
-  .case(doSomething, (state, something) => {
+  .case(somethingAsync.done, (state, { result }: any) => {
     return {
       ...state,
-      something
+      something: result.title
     };
   });
