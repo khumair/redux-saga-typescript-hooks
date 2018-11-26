@@ -3,7 +3,7 @@ import styled, { createGlobalStyle } from 'styled-components';
 import { Router } from '@reach/router';
 
 import ReposList from './reposList/ReposList.container';
-import Details from './details/Details.component';
+import Details from './details/Details.container';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -36,8 +36,8 @@ function App() {
         <ReposList/>
       </StyledSidebar>
       <StyledContent>
-        <Router>
-          <Details path="/repo/:repoId"/>
+        <Router primary={false}>
+          <Details path="/repo/:repoName"/>
         </Router>
       </StyledContent>
     </StyledContainer>

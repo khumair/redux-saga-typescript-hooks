@@ -5,7 +5,7 @@ import { Repo } from '../../interfaces';
 
 export interface ReposListComponentProps {
   repos?: Array<Repo>;
-  onClick: (repoId: number) => void;
+  onClick: (repoId: string) => void;
 }
 
 const StyledRepo = styled.a`
@@ -19,7 +19,7 @@ const ReposListComponent: React.FC<ReposListComponentProps> = ({ repos, onClick 
     {repos && repos.map((repo) => {
       return <StyledRepo
         key={repo.id}
-        onClick={() => onClick(repo.id)}
+        onClick={() => onClick(repo.name)}
       >
         <strong>{repo.name}</strong> ({repo.watchers_count})
       </StyledRepo>;

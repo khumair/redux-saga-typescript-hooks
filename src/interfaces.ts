@@ -1,5 +1,6 @@
 export interface RootState {
   readonly repos?: AsyncModel<Array<Repo>>;
+  readonly repoDetails?: AsyncModel<RepoDetails>;
 }
 
 export interface AsyncModel<P> {
@@ -12,4 +13,13 @@ export interface Repo {
   id: number;
   name: string;
   watchers_count: number;
+}
+
+export interface RepoDetails {
+  details?: Repo;
+  contributors?: Array<Contributor>;
+}
+
+export interface Contributor {
+  login: string;
 }

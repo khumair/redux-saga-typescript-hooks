@@ -1,13 +1,48 @@
 import { SagaIterator } from 'redux-saga';
-import { all, call, takeLatest } from 'redux-saga/effects';
-
-import { fetchRepos } from './actions';
+import { all, call, select, takeLatest } from 'redux-saga/effects';
+import { Action } from 'typescript-fsa';
 import { bindAsyncAction } from 'typescript-fsa-redux-saga';
+
+import { fetchRepoDetails, fetchRepos } from './actions';
+import { RepoDetails } from './interfaces';
+
+// Very basic extended fetch only does requests to github API and always sends authorization header
+function extendedFetch(url: RequestInfo, options?: RequestInit) {
+  return fetch(`https://api.github.com${url}`, {
+    ...options,
+    headers: {
+      Authorization: 'token 915fdcadb7ae496b2819fc604f9956363ae939eb'
+    }
+  });
+}
 
 const fetchReposWorker = bindAsyncAction(fetchRepos, { skipStartedAction: true })(
   function* (): SagaIterator {
-    const response = yield call(fetch, 'https://api.github.com/orgs/facebook/repos');
+    const response = yield call(extendedFetch, '/orgs/facebook/repos');
     return yield call([response, 'json']);
+  }
+);
+
+const fetchRepoDetailsWorker = bindAsyncAction(fetchRepoDetails, { skipStartedAction: true })(
+  function* (repoName): SagaIterator {
+    // Do these requests in parallel
+    // We could have taken the information about repo details from the list, but it's not future-proof
+    const [repoResponse, contributorsResponse] = yield all([
+      call(extendedFetch, `/repos/facebook/${repoName}`),
+      call(extendedFetch, `/repos/facebook/${repoName}/contributors`)
+    ]);
+
+    const [repo, contributors] = yield all([
+      call([repoResponse, 'json']),
+      call([contributorsResponse, 'json']),
+    ]);
+
+    const repoDetails = {
+      details: repo,
+      contributors
+    };
+
+    return repoDetails;
   }
 );
 
@@ -15,8 +50,15 @@ function* watchFetchRepos() {
   yield takeLatest(fetchRepos.started, fetchReposWorker);
 }
 
+function* watchFetchRepoDetails() {
+  yield takeLatest(fetchRepoDetails.started, (action: Action<string>) => {
+    return fetchRepoDetailsWorker(action.payload);
+  });
+}
+
 export default function* rootSaga() {
   yield all([
-    watchFetchRepos()
+    watchFetchRepos(),
+    watchFetchRepoDetails()
   ]);
 };

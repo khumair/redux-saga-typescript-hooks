@@ -36,7 +36,7 @@ const ReposListContainer = connect<ContainerStateProps, ContainerDispatchProps>(
       repos: props.repos,
       isFetching: props.isFetching,
       // Make component completely dumb
-      onClick: (repoId: number) => navigate(`/repo/${repoId}`)
+      onClick: (repoName: string) => navigate(`/repo/${repoName}`)
     }
   );
 });

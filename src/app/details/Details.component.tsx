@@ -1,14 +1,31 @@
 import React from 'react';
-import { RouteComponentProps } from '@reach/router';
+import styled from 'styled-components';
 
-type DetailsProps = RouteComponentProps<{ repoId: string }>;
+import { Contributor, RepoDetails } from '../../interfaces';
 
-const Details: React.FC<DetailsProps> = (props) => {
-  if (!props.repoId) {
+export interface DetailsComponentProps extends RepoDetails {
+}
+
+const StyledHeading = styled.h2`
+  margin-top: 0;
+`;
+
+const DetailsComponent: React.FC<DetailsComponentProps> = (props) => {
+  function renderContributor(contributor: Contributor) {
+    return <div key={contributor.login}>{contributor.login}</div>;
+  }
+
+  if (!props.details || !props.details.name) {
+    console.info('return null');
     return null;
   }
 
-  return <div>{props.repoId}</div>;
+  return <>
+    <StyledHeading>{props.details && props.details.name}</StyledHeading>
+    <h4>Contributors</h4>
+
+    {props.contributors && props.contributors.map(renderContributor)}
+  </>;
 };
 
-export default Details;
+export default DetailsComponent;
