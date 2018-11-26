@@ -1,42 +1,52 @@
-import React, { useEffect } from 'react';
+import React, { ComponentType, createElement, useEffect } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 
-import { somethingAsync } from '../actions';
-import { RootState } from '../interfaces';
+import { fetchRepos } from '../actions';
+import { AsyncModel, Repo, RootState } from '../interfaces';
+import withLoader from '../withLoader';
 
 interface ContainerStateProps {
-  something?: string;
+  repos?: AsyncModel<Array<Repo>>;
 }
 
 interface ContainerDispatchProps {
   onMount: () => void;
 }
 
-type SidebarProps = ContainerDispatchProps & ContainerStateProps;
+interface SidebarComponentProps {
+  repos?: Array<Repo>;
+}
 
 const StyledSidebar = styled.div`
   background: #ddd;
   padding: 30px;
 `;
 
-const SidebarComponent: React.FC<SidebarProps> = (props) => {
-  useEffect(props.onMount, []);
-
+const SidebarComponent: React.FC<SidebarComponentProps> = () => {
   return <StyledSidebar>
-    sidebar {props.something}
+    sidebar
   </StyledSidebar>;
 };
 
 // Waiting for an official 'useRedux' hook, meanwhile good old connect
 const Sidebar = connect<ContainerStateProps, ContainerDispatchProps>(
   (state: RootState) => ({
-    something: state.something
+    repos: state.repos
   }),
   (dispatch) => ({
     // Another approach would be to dispatch `appMounted` and make saga do all the logic, but this one is less boilerplate
-    onMount: () => dispatch(somethingAsync)
+    onMount: () => dispatch(fetchRepos.started())
   })
-)(SidebarComponent);
+)((props: ContainerDispatchProps & ContainerStateProps) => {
+  useEffect(props.onMount, []);
+
+  return createElement(
+    withLoader<SidebarComponentProps>(SidebarComponent), {
+      repos: props.repos && props.repos.payload,
+      isFetching: props.repos && props.repos.isFetching
+    }
+  );
+});
 
 export default Sidebar;

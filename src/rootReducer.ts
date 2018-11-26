@@ -1,16 +1,28 @@
 import { reducerWithInitialState } from 'typescript-fsa-reducers';
 
-import { somethingAsync } from './actions';
+import { fetchRepos } from './actions';
 import { RootState } from './interfaces';
 
 const INITIAL_STATE: RootState = {
-  something: ''
+  repos: {}
 };
 
 export const rootReducer = reducerWithInitialState(INITIAL_STATE)
-  .case(somethingAsync.done, (state, { result }: any) => {
+  .case(fetchRepos.started, (state) => {
     return {
       ...state,
-      something: result.title
+      repos: {
+        ...state.repos,
+        isFetching: true
+      }
+    };
+  })
+  .case(fetchRepos.done, (state, { result }: any) => {
+    return {
+      ...state,
+      repos: {
+        payload: result,
+        isFetching: false
+      }
     };
   });

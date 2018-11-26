@@ -1,5 +1,6 @@
 import actionCreatorFactory from 'typescript-fsa';
+import { Repo } from './interfaces';
 
 const actionCreator = actionCreatorFactory();
 
-export const somethingAsync = actionCreator.async('SOMETHING_HAPPENED_ASYNC');
+export const fetchRepos = actionCreator.async<void, Array<Repo>>('REPOS_FETCH');
