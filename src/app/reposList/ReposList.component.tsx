@@ -1,20 +1,29 @@
 import React from 'react';
-import { Link } from '@reach/router';
+import styled from 'styled-components';
 
 import { Repo } from '../../interfaces';
 
 export interface ReposListComponentProps {
   repos?: Array<Repo>;
+  onClick: (repoId: number) => void;
 }
 
-const ReposListComponent: React.FC<ReposListComponentProps> = (props) => {
+const StyledRepo = styled.a`
+  cursor: pointer;
+  display: block;
+  color: darkblue;
+  text-decoration: underline;
+`;
+
+const ReposListComponent: React.FC<ReposListComponentProps> = ({ repos, onClick }) => {
   return <>
-    {props.repos && props.repos.map((repo) => {
-      return <div key={repo.id}>
-        <Link to={`repo/${repo.id}`}>
-          {repo.full_name}
-        </Link>
-      </div>;
+    {repos && repos.map((repo) => {
+      return <StyledRepo
+        key={repo.id}
+        onClick={() => onClick(repo.id)}
+      >
+        {repo.full_name}
+      </StyledRepo>;
     })}
   </>;
 };

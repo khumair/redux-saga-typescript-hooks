@@ -1,5 +1,6 @@
 import React, { createElement, useEffect } from 'react';
 import { connect } from 'react-redux';
+import { navigate } from '@reach/router';
 
 import { fetchRepos } from '../../actions';
 import { AsyncModel, Repo, RootState } from '../../interfaces';
@@ -31,7 +32,9 @@ const ReposListContainer = connect<ContainerStateProps, ContainerDispatchProps>(
     withLoader<ReposListComponentProps>(ReposListComponent), {
       // Optional chaining when?
       repos: props.repos && props.repos.payload,
-      isFetching: props.repos && props.repos.isFetching
+      isFetching: props.repos && props.repos.isFetching,
+      // Make component completely dumb
+      onClick: (repoId: number) => navigate(`/repo/${repoId}`)
     }
   );
 });
