@@ -12,9 +12,11 @@ const StyledSidebar = styled.div`
   padding: 30px;
 `;
 
-const SidebarComponent: React.FC<SidebarComponentProps> = () => {
+const SidebarComponent: React.FC<SidebarComponentProps> = (props) => {
   return <StyledSidebar>
-    sidebar
+    {props.repos && props.repos.map((repo) => {
+      return <div key={repo.id}>{repo.full_name}</div>;
+    })}
   </StyledSidebar>;
 };
 

@@ -4,7 +4,9 @@ import { fetchRepos } from './actions';
 import { RootState } from './interfaces';
 
 const INITIAL_STATE: RootState = {
-  repos: {}
+  repos: {
+    isFetching: true
+  }
 };
 
 export const rootReducer = reducerWithInitialState(INITIAL_STATE)
