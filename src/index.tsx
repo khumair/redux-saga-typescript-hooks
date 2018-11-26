@@ -9,7 +9,7 @@ import createSagaMiddleware from 'redux-saga';
 import { rootReducer } from './rootReducer';
 import rootSaga from './rootSaga';
 
-import './index.css';
+import App from './components/App';
 
 const sagaMiddleware = createSagaMiddleware();
 const composeEnhancers = composeWithDevTools({});
@@ -24,11 +24,9 @@ const store = createStore(
 
 sagaMiddleware.run(rootSaga);
 
-import AppContainer from './App';
-
 ReactDOM.render(
   <Provider store={store}>
-    <AppContainer/>
+    <App/>
   </Provider>,
   document.getElementById('root')
 );
