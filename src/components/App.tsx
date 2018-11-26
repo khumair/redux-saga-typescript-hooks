@@ -13,6 +13,7 @@ const GlobalStyle = createGlobalStyle`
 const StyledContainer = styled.div`
   display: flex;
   align-items: stretch;
+  min-height: 100vh;
 `;
 
 function App() {
