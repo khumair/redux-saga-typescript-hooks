@@ -31,7 +31,7 @@ export const rootReducer = reducerWithInitialState(INITIAL_STATE)
     };
   });
 
-export function getReposSelector(state: RootState): AsyncModel<Array<Repo>> | undefined {
+function getReposSelector(state: RootState): AsyncModel<Array<Repo>> | undefined {
   return state.repos;
 }
 
