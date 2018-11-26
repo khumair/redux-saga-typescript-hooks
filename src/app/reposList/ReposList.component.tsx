@@ -12,7 +12,6 @@ const StyledRepo = styled.a`
   cursor: pointer;
   display: block;
   color: blue;
-  text-decoration: underline;
 `;
 
 const ReposListComponent: React.FC<ReposListComponentProps> = ({ repos, onClick }) => {
@@ -22,7 +21,7 @@ const ReposListComponent: React.FC<ReposListComponentProps> = ({ repos, onClick 
         key={repo.id}
         onClick={() => onClick(repo.id)}
       >
-        {repo.name} ({repo.watchers_count})
+        <strong>{repo.name}</strong> ({repo.watchers_count})
       </StyledRepo>;
     })}
   </>;
