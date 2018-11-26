@@ -1,5 +1,5 @@
 import actionCreatorFactory from 'typescript-fsa';
-import { Contributor, Repo, RepoDetails } from './interfaces';
+import { Repo, RepoDetails } from './interfaces';
 
 const actionCreator = actionCreatorFactory();
 

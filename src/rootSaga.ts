@@ -1,10 +1,9 @@
 import { SagaIterator } from 'redux-saga';
-import { all, call, select, takeLatest } from 'redux-saga/effects';
+import { all, call, takeLatest } from 'redux-saga/effects';
 import { Action } from 'typescript-fsa';
 import { bindAsyncAction } from 'typescript-fsa-redux-saga';
 
 import { fetchRepoDetails, fetchRepos } from './actions';
-import { RepoDetails } from './interfaces';
 
 // Very basic extended fetch only does requests to github API and always sends authorization header
 function extendedFetch(url: RequestInfo, options?: RequestInit) {
