@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 
-import Sidebar from './Sidebar';
+import Sidebar from './sidebar/Sidebar.container';
 
 const GlobalStyle = createGlobalStyle`
   body {

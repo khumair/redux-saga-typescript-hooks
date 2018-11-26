@@ -9,7 +9,7 @@ import createSagaMiddleware from 'redux-saga';
 import { rootReducer } from './rootReducer';
 import rootSaga from './rootSaga';
 
-import App from './components/App';
+import App from './app/App';
 
 const sagaMiddleware = createSagaMiddleware();
 const composeEnhancers = composeWithDevTools({});

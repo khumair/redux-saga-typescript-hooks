@@ -1,10 +1,11 @@
-import React, { ComponentType, createElement, useEffect } from 'react';
-import styled from 'styled-components';
+import React, { createElement, useEffect } from 'react';
 import { connect } from 'react-redux';
 
-import { fetchRepos } from '../actions';
-import { AsyncModel, Repo, RootState } from '../interfaces';
-import withLoader from '../withLoader';
+import { fetchRepos } from '../../actions';
+import { AsyncModel, Repo, RootState } from '../../interfaces';
+import withLoader from '../../withLoader';
+
+import SidebarComponent, { SidebarComponentProps } from './Sidebar.component';
 
 interface ContainerStateProps {
   repos?: AsyncModel<Array<Repo>>;
@@ -14,23 +15,8 @@ interface ContainerDispatchProps {
   onMount: () => void;
 }
 
-interface SidebarComponentProps {
-  repos?: Array<Repo>;
-}
-
-const StyledSidebar = styled.div`
-  background: #ddd;
-  padding: 30px;
-`;
-
-const SidebarComponent: React.FC<SidebarComponentProps> = () => {
-  return <StyledSidebar>
-    sidebar
-  </StyledSidebar>;
-};
-
 // Waiting for an official 'useRedux' hook, meanwhile good old connect
-const Sidebar = connect<ContainerStateProps, ContainerDispatchProps>(
+const SidebarContainer = connect<ContainerStateProps, ContainerDispatchProps>(
   (state: RootState) => ({
     repos: state.repos
   }),
@@ -43,10 +29,11 @@ const Sidebar = connect<ContainerStateProps, ContainerDispatchProps>(
 
   return createElement(
     withLoader<SidebarComponentProps>(SidebarComponent), {
+      // Optional chaining when?
       repos: props.repos && props.repos.payload,
       isFetching: props.repos && props.repos.isFetching
     }
   );
 });
 
-export default Sidebar;
+export default SidebarContainer;
