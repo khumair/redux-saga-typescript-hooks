@@ -1,9 +1,10 @@
 import { SagaIterator } from 'redux-saga';
-import { all, call, takeLatest } from 'redux-saga/effects';
+import { all, call, select, takeLatest } from 'redux-saga/effects';
 import { Action } from 'typescript-fsa';
 import { bindAsyncAction } from 'typescript-fsa-redux-saga';
 
 import { fetchRepoDetails, fetchRepos } from './actions';
+import { RootState } from './interfaces';
 
 // Very basic extended fetch only does requests to github API and always sends authorization header
 function extendedFetch(url: RequestInfo, options?: RequestInit) {
@@ -24,12 +25,20 @@ const fetchReposWorker = bindAsyncAction(fetchRepos, { skipStartedAction: true }
 
 const fetchRepoDetailsWorker = bindAsyncAction(fetchRepoDetails, { skipStartedAction: true })(
   function* (repoName): SagaIterator {
+    const state: RootState = yield select();
+
+    if (state && state.cache && state.cache[repoName]) {
+      return state.cache[repoName];
+    }
+
     // Do these requests in parallel
     // We could have taken the information about repo details from the list, but it's not future-proof
     const [repoResponse, contributorsResponse] = yield all([
       call(extendedFetch, `/repos/facebook/${repoName}`),
       call(extendedFetch, `/repos/facebook/${repoName}/contributors`)
     ]);
+
+    // console.info(contributorsResponse.headers.get('Link'));
 
     const [repo, contributors] = yield all([
       call([repoResponse, 'json']),

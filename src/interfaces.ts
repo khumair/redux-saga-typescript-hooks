@@ -1,6 +1,9 @@
 export interface RootState {
   readonly repos?: AsyncModel<Array<Repo>>;
   readonly repoDetails?: AsyncModel<RepoDetails>;
+  readonly cache?: {
+    [key: string]: RepoDetails
+  }
 }
 
 export interface AsyncModel<P> {

@@ -1,6 +1,7 @@
 import { reducerWithInitialState } from 'typescript-fsa-reducers';
 import { sortBy } from 'lodash';
 import { createSelector } from 'reselect' ;
+import produce from 'immer';
 
 import { fetchRepoDetails, fetchRepos } from './actions';
 import { AsyncModel, Repo, RepoDetails, RootState } from './interfaces';
@@ -8,7 +9,8 @@ import { AsyncModel, Repo, RepoDetails, RootState } from './interfaces';
 const INITIAL_STATE: RootState = {
   repos: {
     isFetching: true
-  }
+  },
+  cache: {}
 };
 
 export const rootReducer = reducerWithInitialState(INITIAL_STATE)
@@ -42,17 +44,15 @@ export const rootReducer = reducerWithInitialState(INITIAL_STATE)
   .case(fetchRepoDetails.done, (state, payload) => {
     const { details, contributors } = payload.result;
 
-    return {
-      ...state,
-      repoDetails: {
-        ...state.repoDetails,
-        isFetching: false,
-        payload: {
-          details,
-          contributors
+    return produce(state, draft => {
+      if (draft.repoDetails) {
+        draft.repoDetails.isFetching = false;
+        draft.repoDetails.payload = { details, contributors };
+        if (draft.cache && details) {
+          draft.cache[details.name] = { details, contributors };
         }
       }
-    }
+    });
   });
 
 function getReposSelector(state: RootState): AsyncModel<Array<Repo>> | undefined {
