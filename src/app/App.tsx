@@ -1,7 +1,9 @@
 import React from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
+import { Router } from '@reach/router';
 
-import Sidebar from './sidebar/Sidebar.container';
+import ReposList from './reposList/ReposList.container';
+import Details from './details/Details.component';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -16,11 +18,28 @@ const StyledContainer = styled.div`
   min-height: 100vh;
 `;
 
+const StyledSidebar = styled.div`
+  min-width: 300px;
+  background: #ddd;
+  padding: 30px;
+`;
+
+const StyledContent = styled.div`
+  padding: 30px;
+`;
+
 function App() {
   return <>
     <GlobalStyle/>
     <StyledContainer>
-      <Sidebar/>
+      <StyledSidebar>
+        <ReposList/>
+      </StyledSidebar>
+      <StyledContent>
+        <Router>
+          <Details path="/repo/:repoId"/>
+        </Router>
+      </StyledContent>
     </StyledContainer>
   </>
 }

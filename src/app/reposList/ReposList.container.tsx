@@ -5,7 +5,7 @@ import { fetchRepos } from '../../actions';
 import { AsyncModel, Repo, RootState } from '../../interfaces';
 import withLoader from '../../withLoader';
 
-import SidebarComponent, { SidebarComponentProps } from './Sidebar.component';
+import ReposListComponent, { ReposListComponentProps } from './ReposList.component';
 
 interface ContainerStateProps {
   repos?: AsyncModel<Array<Repo>>;
@@ -16,7 +16,7 @@ interface ContainerDispatchProps {
 }
 
 // Waiting for an official 'useRedux' hook, meanwhile good old connect
-const SidebarContainer = connect<ContainerStateProps, ContainerDispatchProps>(
+const ReposListContainer = connect<ContainerStateProps, ContainerDispatchProps>(
   (state: RootState) => ({
     repos: state.repos
   }),
@@ -28,7 +28,7 @@ const SidebarContainer = connect<ContainerStateProps, ContainerDispatchProps>(
   useEffect(props.onMount, []);
 
   return createElement(
-    withLoader<SidebarComponentProps>(SidebarComponent), {
+    withLoader<ReposListComponentProps>(ReposListComponent), {
       // Optional chaining when?
       repos: props.repos && props.repos.payload,
       isFetching: props.repos && props.repos.isFetching
@@ -36,4 +36,4 @@ const SidebarContainer = connect<ContainerStateProps, ContainerDispatchProps>(
   );
 });
 
-export default SidebarContainer;
+export default ReposListContainer;
