@@ -33,8 +33,7 @@ const ReposListContainer = connect<ContainerStateProps, ContainerDispatchProps>(
 
   return createElement(
     withLoader<ReposListComponentProps>(ReposListComponent), {
-      repos: props.repos,
-      isFetching: props.isFetching,
+      ...props,
       // Make component completely dumb
       onClick: (repoName: string) => navigate(`/repo/${repoName}`)
     }

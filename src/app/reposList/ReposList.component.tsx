@@ -15,15 +15,17 @@ const StyledRepo = styled.a`
 `;
 
 const ReposListComponent: React.FC<ReposListComponentProps> = ({ repos, onClick }) => {
+  function renderRepo(repo: Repo) {
+    return <StyledRepo
+      key={repo.id}
+      onClick={() => onClick(repo.name)}
+    >
+      <strong>{repo.name}</strong> ({repo.watchers_count})
+    </StyledRepo>;
+  }
+
   return <>
-    {repos && repos.map((repo) => {
-      return <StyledRepo
-        key={repo.id}
-        onClick={() => onClick(repo.name)}
-      >
-        <strong>{repo.name}</strong> ({repo.watchers_count})
-      </StyledRepo>;
-    })}
+    {repos && repos.map(renderRepo)}
   </>;
 };
 
