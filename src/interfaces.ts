@@ -20,7 +20,12 @@ export interface Repo {
 
 export interface RepoDetails {
   details?: Repo;
-  contributors?: Array<Contributor>;
+  contributors?: RepoContributors;
+}
+
+export interface RepoContributors {
+  list?: Array<Contributor>,
+  hasMore?: string;
 }
 
 export interface Contributor {

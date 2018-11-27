@@ -1,7 +1,8 @@
 import actionCreatorFactory from 'typescript-fsa';
-import { Repo, RepoDetails } from './interfaces';
+import { Repo, RepoContributors, RepoDetails } from './interfaces';
 
 const actionCreator = actionCreatorFactory();
 
-export const fetchRepos = actionCreator.async<void, Array<Repo>>('REPOS_FETCH');
-export const fetchRepoDetails = actionCreator.async<string, RepoDetails>('REPO_DETAILS_FETCH');
+export const fetchRepos = actionCreator.async<void, Array<Repo>>('FETCH_REPOS');
+export const fetchRepoDetails = actionCreator.async<string, RepoDetails>('FETH_REPO_DETAILS');
+export const fetchMoreContributors = actionCreator.async<void, RepoContributors>('FETCH_MORE_CONTRIBUTORS');

@@ -11,6 +11,11 @@ import rootSaga from './rootSaga';
 
 import App from './app/App';
 
+// Disable native scroll restoration
+if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+}
+
 const sagaMiddleware = createSagaMiddleware();
 const composeEnhancers = composeWithDevTools({});
 const logger = createLogger({ collapsed: true });

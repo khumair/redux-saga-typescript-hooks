@@ -1,27 +1,50 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { Contributor, RepoDetails } from '../../interfaces';
+import { Contributor, RepoContributors, RepoDetails } from '../../interfaces';
 
 const StyledHeading = styled.h2`
   margin-top: 0;
 `;
 
-const DetailsComponent: React.FC<RepoDetails> = (props) => {
-  function renderContributor(contributor: Contributor) {
-    return <div key={contributor.login}>{contributor.login}</div>;
-  }
+export interface DetailsComponentProps extends RepoDetails {
+  onShowMore?: () => void;
+}
 
+interface ContributsListProps extends RepoContributors {
+  onShowMore?: () => void;
+}
+
+const ContributorComponent: React.FC<Contributor> = ({ login }) => {
+  return <div key={login}>{login}</div>;
+};
+
+const ContributorsList: React.FC<ContributsListProps> = ({ list = [], hasMore = false, onShowMore }) => {
+  return <>
+    <h4>Contributors</h4>
+    {list.map(ContributorComponent)}
+    {/*
+    I don't like this functionality here, ideally we should create something like InfiniteScroller HOC
+    */}
+    {hasMore && hasMore.match(/next/) && <button onClick={onShowMore}>Show more</button>}
+  </>;
+};
+
+const DetailsComponent: React.FC<DetailsComponentProps> = (props) => {
   if (!props.details || !props.details.name) {
-    console.info('return null');
     return null;
   }
 
   return <>
     <StyledHeading>{props.details && props.details.name}</StyledHeading>
-    <h4>Contributors</h4>
 
-    {props.contributors && props.contributors.map(renderContributor)}
+    {props.contributors
+    && props.contributors.list
+    && props.contributors.list.length
+    && <ContributorsList
+      {...props.contributors}
+      onShowMore={props.onShowMore}
+    />}
   </>;
 };
 

@@ -1,12 +1,12 @@
-import React, { ComponentType, useEffect, useState } from 'react';
+import React, { ComponentType, FunctionComponent, useEffect, useState } from 'react';
 
 interface WithLoaderProps {
   isFetching?: boolean;
 }
 
-const SHOW_LOADER_DELAY = 400;
+const SHOW_LOADER_DELAY = 300;
 
-function withLoader<P>(WrappedComponent: ComponentType<P>) {
+function withLoader<P>(WrappedComponent: ComponentType<P>): FunctionComponent<P & WithLoaderProps> {
   return function (props: P & WithLoaderProps) {
     const { isFetching, ...newProps } = props as WithLoaderProps;
 
@@ -15,7 +15,7 @@ function withLoader<P>(WrappedComponent: ComponentType<P>) {
     useEffect(() => {
       let timer: NodeJS.Timer;
 
-      // Only show loader if asynchronous task lasts longer than 400ms
+      // Only show loader if asynchronous task lasts longer than 300ms
       if (isFetching) {
         timer = setTimeout(() => {
           setLoaderVisible(true);

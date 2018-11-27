@@ -5,7 +5,7 @@ import { navigate } from '@reach/router';
 import { fetchRepos } from '../../actions';
 import { Repo, RootState } from '../../interfaces';
 import withLoader from '../../withLoader';
-import { getReposArraySelector, getReposIsFetchingSelector } from '../../rootReducer';
+import { getRepoDetailsNameSelector, getReposArraySelector, getReposIsFetchingSelector } from '../../rootReducer';
 
 import ReposListComponent, { ReposListComponentProps } from './ReposList.component';
 
@@ -21,6 +21,7 @@ interface ContainerDispatchProps {
 // Waiting for an official 'useRedux' hook, meanwhile good old connect
 const ReposListContainer = connect<ContainerStateProps, ContainerDispatchProps>(
   (state: RootState) => ({
+    selectedRepoName: getRepoDetailsNameSelector(state),
     repos: getReposArraySelector(state),
     isFetching: getReposIsFetchingSelector(state)
   }),

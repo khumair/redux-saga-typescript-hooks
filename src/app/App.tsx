@@ -10,11 +10,12 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     font-family: 'Open Sans', sans-serif;
   }
+  * {
+    box-sizing: border-box;
+  }
 `;
 
 const StyledContainer = styled.div`
-  display: flex;
-  align-items: stretch;
   min-height: 100vh;
 `;
 
@@ -22,9 +23,14 @@ const StyledSidebar = styled.div`
   min-width: 300px;
   background: #ddd;
   padding: 30px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
 `;
 
 const StyledContent = styled.div`
+  margin-left: 300px;
   padding: 30px;
 `;
 
