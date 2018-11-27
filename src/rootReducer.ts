@@ -7,9 +7,7 @@ import { fetchMoreContributors, fetchRepoDetails, fetchRepos } from './actions';
 import { AsyncModel, Repo, RootState } from './interfaces';
 
 const INITIAL_STATE: RootState = {
-  repos: {
-    isFetching: true
-  },
+  repos: {},
   cache: {}
 };
 

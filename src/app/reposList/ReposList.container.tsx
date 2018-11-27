@@ -12,6 +12,7 @@ import ReposListComponent, { ReposListComponentProps } from './ReposList.compone
 interface ContainerStateProps {
   repos?: Array<Repo>;
   isFetching?: boolean;
+  selectedRepoName?: string;
 }
 
 interface ContainerDispatchProps {
