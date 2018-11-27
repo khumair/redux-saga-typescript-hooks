@@ -6,7 +6,7 @@ import { AsyncModel, RepoDetails, RootState } from '../../interfaces';
 import { fetchRepoDetails } from '../../actions';
 import withLoader from '../../withLoader';
 
-import DetailsComponent, { DetailsComponentProps } from './Details.component';
+import DetailsComponent from './Details.component';
 
 interface ContainerStateProps {
   details?: AsyncModel<RepoDetails>;
@@ -34,7 +34,7 @@ const DetailsContainer = connect<ContainerStateProps, ContainerDispatchProps>(
   }, [props.repoName]);
 
   return createElement(
-    withLoader<DetailsComponentProps>(DetailsComponent), {
+    withLoader<RepoDetails>(DetailsComponent), {
       ...(props.details || {}).payload,
       isFetching: props.details && props.details.isFetching
     }

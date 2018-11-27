@@ -3,14 +3,11 @@ import styled from 'styled-components';
 
 import { Contributor, RepoDetails } from '../../interfaces';
 
-export interface DetailsComponentProps extends RepoDetails {
-}
-
 const StyledHeading = styled.h2`
   margin-top: 0;
 `;
 
-const DetailsComponent: React.FC<DetailsComponentProps> = (props) => {
+const DetailsComponent: React.FC<RepoDetails> = (props) => {
   function renderContributor(contributor: Contributor) {
     return <div key={contributor.login}>{contributor.login}</div>;
   }
