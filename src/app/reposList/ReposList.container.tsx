@@ -5,7 +5,7 @@ import { navigate } from '@reach/router';
 import { fetchRepos } from '../../actions';
 import { Repo, RootState } from '../../interfaces';
 import withLoader from '../../withLoader';
-import { getReposArraySelector, getReposIsFetching } from '../../rootReducer';
+import { getReposArraySelector, getReposIsFetchingSelector } from '../../rootReducer';
 
 import ReposListComponent, { ReposListComponentProps } from './ReposList.component';
 
@@ -22,7 +22,7 @@ interface ContainerDispatchProps {
 const ReposListContainer = connect<ContainerStateProps, ContainerDispatchProps>(
   (state: RootState) => ({
     repos: getReposArraySelector(state),
-    isFetching: getReposIsFetching(state)
+    isFetching: getReposIsFetchingSelector(state)
   }),
   (dispatch) => ({
     // Another approach would be to dispatch `appMounted` and make saga do all the logic, but this one is less boilerplate

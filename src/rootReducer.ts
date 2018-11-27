@@ -42,14 +42,14 @@ export const rootReducer = reducerWithInitialState(INITIAL_STATE)
     }
   })
   .case(fetchRepoDetails.done, (state, payload) => {
-    const { details, contributors } = payload.result;
+    const { details } = payload.result;
 
     return produce(state, draft => {
       if (draft.repoDetails) {
         draft.repoDetails.isFetching = false;
-        draft.repoDetails.payload = { details, contributors };
+        draft.repoDetails.payload = payload.result;
         if (draft.cache && details) {
-          draft.cache[details.name] = { details, contributors };
+          draft.cache[details.name] = payload.result;
         }
       }
     });
@@ -64,11 +64,7 @@ export const getReposArraySelector = createSelector(
   repos => repos && repos.payload && sortBy(repos.payload, e => -e.watchers_count)
 );
 
-export const getReposIsFetching = createSelector(
+export const getReposIsFetchingSelector = createSelector(
   getReposSelector,
   repos => repos && repos.isFetching
 );
-
-function getRepoDetailsObject(state: RootState): AsyncModel<RepoDetails> | undefined {
-  return state.repoDetails;
-}
